@@ -3,13 +3,13 @@ import axios from "axios";
 import { MovieContext } from "./MovieContext";
 import MovieCard from "./MovieCard";
 import Pagination from "./Pagination";
+import { TMDB_API_KEY } from "../utilities/constant";
 
 function Movies() {
   const { handleAddToWatchlist, watchlist } = useContext(MovieContext);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(""); // 🔹 search state
-  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 
   // Pagination handlers
@@ -19,7 +19,7 @@ function Movies() {
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=en-US&page=${page}`
       )
       .then((response) => {
         setMovies(response.data.results);

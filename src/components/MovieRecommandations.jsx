@@ -3,12 +3,11 @@ import { MovieContext } from "./MovieContext";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaRegSadCry } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
+import { GEMINI_API_KEY } from "../utilities/constant";
 
-<<<<<<< HEAD
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY); // replace with your Gemini key
-=======
-const genAI = new GoogleGenerativeAI(" "); // replace with your Gemini key
->>>>>>> 55ae49ee174a1be5590f842843792be2dd2b70be
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY); // replace with your Gemini key
+
 
 function MovieRecommandations() {
   const { watchlist } = useContext(MovieContext);

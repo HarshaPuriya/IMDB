@@ -1,0 +1,31 @@
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Local environment variables
+.env
+.env.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor settings
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Optional cache
+.cache/
+.eslintcache
+
+# custom utilities folder
+src/utilities/
