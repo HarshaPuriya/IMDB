@@ -27,5 +27,4 @@ Thumbs.db
 .cache/
 .eslintcache
 
-# custom utilities folder
-src/utilities/
+
