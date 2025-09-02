@@ -9,6 +9,8 @@ function Movies() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(""); // 🔹 search state
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
 
   // Pagination handlers
   const handleNext = () => setPage((prev) => prev + 1);
@@ -17,7 +19,7 @@ function Movies() {
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=f2494bf4670d3b9dd0f7817bb84c286f&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=${page}`
       )
       .then((response) => {
         setMovies(response.data.results);
@@ -48,7 +50,7 @@ function Movies() {
           />
         </div>
         {/* Responsive Grid */}
-        <div className="flex flex-wrap justify-center gap-6 min-h-[400px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
           {filteredMovies.length > 0 ? (
             filteredMovies.map((movieObj) => (
               <div key={movieObj.id} className="w-[250px]">
@@ -60,7 +62,7 @@ function Movies() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-400 w-full">
+            <p className="text-center text-gray-400 col-span-full">
               No movies found 😢
             </p>
           )}

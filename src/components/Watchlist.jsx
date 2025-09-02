@@ -59,8 +59,8 @@ function Watchlist() {
       </div>
 
       {/* Table */}
-      <div className="m-8 w-full overflow-x-auto">
-        <table className="w-full table-auto border-collapse">
+      <div className="m-4 w-full overflow-x-auto">
+        <table className="min-w-full table-auto text-xs sm:text-sm md:text-base">
           <thead className=" border border-gray-200 bg-gray-300">
             <tr>
               <th className="px-6 py-4 text-center">Name</th>
