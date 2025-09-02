@@ -5,43 +5,67 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MovieRecommandations from "./components/MovieRecommandations";
 import Watchlist from "./components/Watchlist";
 import Movies from "./components/Movies";
-import Pagination from "./components/Pagination";
+import { MovieContext } from "./components/MovieContext";
 function App() {
-
-  const [watchlist, setWatchlist] = useState([])
-
-  const handleAddToWatchlist = (movieObj) => {
-    let updatedWatchlist = [...watchlist, movieObj]
-    setWatchlist(updatedWatchlist)
-    localStorage.setItem('movies', JSON.stringify('movies'));
+  const [watchlist, setWatchlist] = useState(() => {
+  const saved = localStorage.getItem("movies");
+  try {
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return []; // fallback if corrupted
   }
+});
 
-  useEffect(()=> {
-    let moviesFromWL = localStorage.getItem('movies');
-    if(!moviesFromWL) {return}
+// Add to watchlist
+const handleAddToWatchlist = (movie) => {
+  let updated = [...watchlist, movie];
+  setWatchlist(updated);
+  localStorage.setItem("movies", JSON.stringify(updated));
+};
+
+// Deleting
+const handleDelete = (movieId) => {
+  const updated = watchlist.filter((movie) => movie.id !== movieId);
+  setWatchlist(updated);
+  localStorage.setItem("movies", JSON.stringify(updated));
+};
+
+
+  useEffect(() => {
+    let moviesFromWL = localStorage.getItem("movies");
+    if (!moviesFromWL) {
+      return;
+    }
     setWatchlist(JSON.parse(moviesFromWL));
-  },[])
+  }, []);
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <div className="space-y-10 flex flex-wrap">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Banner /> <Movies handleAddToWatchlist={handleAddToWatchlist} watchlist={watchlist}/> 
-                </>
-              }
-            />
+      <MovieContext.Provider
+        value={{watchlist, setWatchlist, handleAddToWatchlist, handleDelete }}
+      >
+        <BrowserRouter>
+          <Navbar />
+          <div className="space-y-10 flex flex-wrap">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Banner /> <Movies />
+                  </>
+                }
+              />
 
-            <Route path="/watchlist" element={<Watchlist watchlist={watchlist}/>} />
+              <Route
+                path="/watchlist"
+                element={<Watchlist watchlist={watchlist} />}
+              />
 
-            <Route path="/recommend" element={<MovieRecommandations />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+              <Route path="/recommend" element={<MovieRecommandations />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </MovieContext.Provider>
     </>
   );
 }

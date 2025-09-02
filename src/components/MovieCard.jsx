@@ -1,35 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MovieContext } from "./MovieContext";
 
-function MovieCard({ movieObject, handleAddToWatchlist, watchlist }) {
+function MovieCard({ movieObject }) {
+  let { handleAddToWatchlist, watchlist } = useContext(MovieContext);
+
   function doesContain() {
-    for (let i = 0; i < watchlist.length; i++) {
-      if (watchlist[i].id === movieObject.id) {
-        return true;
-      }
-    }
-    return false;
-  }
+  if (!Array.isArray(watchlist)) return false;
+  return watchlist.some((movie) => movie.id === movieObject.id);
+}
+
+
   return (
-    <div className="space-y-8  space-x-8">
-      <div
-        className="ml-10 mt-10 rounded-xl w-[200px] h-[40vh] bg-cover"
-        style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieObject.poster_path})`,
-        }}
-      >
-        {doesContain(movieObject) ? (
-          <div className="ml-40">&#10060;</div>
-        ) : (
-          <div
-            onClick={() => handleAddToWatchlist(movieObject)}
-            className="ml-40 "
-          >
-            &#128525;
-          </div>
-        )}
-        <h5 className="text-white text-center mt-40 p-2 text-lg bg-gray-900/75 ">
+    <div className="relative group cursor-pointer">
+      {/* Poster */}
+      <img
+        src={`https://image.tmdb.org/t/p/original/${movieObject.poster_path}`}
+        alt={movieObject.title}
+        className="w-full h-[350px] sm:h-[400px] object-cover rounded-md"
+      />
+
+      {/* Overlay on hover */}
+      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 rounded-xl flex flex-col justify-end p-3">
+        <h3 className="text-lg font-semibold mb-2 text-center">
           {movieObject.title}
-        </h5>
+        </h3>
+        <div className="flex justify-between items-center text-sm">
+          <span>⭐ {movieObject.vote_average.toFixed(1)}</span>
+          {doesContain() ? (
+            <button className="bg-red-500 px-2 py-1 rounded text-xs">
+              In Watchlist
+            </button>
+          ) : (
+            <button
+              onClick={() => handleAddToWatchlist(movieObject)}
+              className="bg-blue-500 px-2 py-1 rounded text-xs hover:bg-blue-600"
+            >
+              + Watchlist
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
