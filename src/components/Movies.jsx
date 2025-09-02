@@ -50,7 +50,8 @@ function Movies() {
           />
         </div>
         {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+        
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 justify-items-center">
           {filteredMovies.length > 0 ? (
             filteredMovies.map((movieObj) => (
               <div key={movieObj.id} className="w-[250px]">
@@ -67,6 +68,7 @@ function Movies() {
             </p>
           )}
         </div>
+        
 
         {/* Pagination */}
         <Pagination
